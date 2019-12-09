@@ -1,4 +1,5 @@
-# OS-Lab4
+OS-Lab4
+Francisco Pardo
 NYU Operating Systems Lab 4 - Demand Paging
 
 To run the code,
