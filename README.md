@@ -38,6 +38,5 @@ The total number of faults is 14 and the overall average residency is 6.08333333
 [fjp265@crackle1 Lab4]$ 
 
 
-
 Thank you so much!
 Francisco Pardo 
