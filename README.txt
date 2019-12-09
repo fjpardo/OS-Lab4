@@ -27,7 +27,9 @@ The page size is 10
 The process size is 10
 The job mix number is 2
 The number of references per process is 10
-The replacement algorithm is random
+
+The replacement algorithm is random.
+
 
 Process 1 had 2 faults and 15.5 average residency.
 Process 2 had 4 faults and 5.0 average residency.
