@@ -34,14 +34,9 @@ public class Pager {
 	
 	public static void main(String[] args) {
 		
-		//Scanner scanner = new Scanner(System.in);
-		
-		
-		try {
-			
+		try {	
 			randomNums = new Scanner(new File("random-numbers.txt"));
-            
-        }
+       		 }
 
  
 		catch (FileNotFoundException e) {
@@ -50,23 +45,12 @@ public class Pager {
 			
 		}
 		
-		/*		
-		machineSize = Integer.parseInt(scanner.next());				
-		pageSize = Integer.parseInt(scanner.next());						
-		sizeOfEachProcess = Integer.parseInt(scanner.next());						
-		jobMix = Integer.parseInt(scanner.next());							
-		numOfReferences = Integer.parseInt(scanner.next());			
-		algo = scanner.next();
-		*/
-
 		machineSize = Integer.parseInt(args[0]);				
 		pageSize = Integer.parseInt(args[1]);				
 		sizeOfEachProcess = Integer.parseInt(args[2]);				
 		jobMix = Integer.parseInt(args[3]);					
 		numOfReferences = Integer.parseInt(args[4]);	
 		algo = args[5];
-		
-
 		
 		//here i initialize the size of the ram
 		ram = new Page[machineSize/pageSize];
@@ -91,7 +75,6 @@ public class Pager {
 			processes.add(p2);
 			processes.add(p3);
 			processes.add(p4);
-			
 			
 		}
 		
@@ -211,17 +194,17 @@ public class Pager {
 						word = ((processes.get(i).nextWord + sizeOfEachProcess) % sizeOfEachProcess);
 					
 					
-					int pageNum = word / pageSize;
+						int pageNum = word / pageSize;
 					
-					//array list of each process' page list
-					ArrayList<Page> pageList = processes.get(i).getPageList();
+						//array list of each process' page list
+						ArrayList<Page> pageList = processes.get(i).getPageList();
 					
-					Page current = null;
+						Page current = null;
 					
-					//retrieve the current page from the page list of this process
-					for(int k = 0; k < pageList.size(); k++) {
-						if(pageList.get(k).getPageNum() == pageNum)
-							current = pageList.get(k);
+						//retrieve the current page from the page list of this process
+						for(int k = 0; k < pageList.size(); k++) {
+							if(pageList.get(k).getPageNum() == pageNum)
+								current = pageList.get(k);
 							
 						
 					}
@@ -280,9 +263,7 @@ public class Pager {
 							evict(current, time, word);
 							processes.get(i).increasePageFault(1);
 							
-							
 						}
-						
 						
 					}
 					
@@ -353,25 +334,21 @@ public class Pager {
 				
 				ram[i] = p;
 				
-                if(algo.equalsIgnoreCase("lru")) 
-                    lru.add(p);
+				if(algo.equalsIgnoreCase("lru")) 
+				    lru.add(p);
+
+				if(algo.equalsIgnoreCase("lifo")) 
+				    lifo.add(p);
+
+
+				//System.out.println(p.getprocessNum() + " references word "+word+" (page "+p.getPageNum()+") at time "+time+": Fault, using free frame "+i+".");
+				p.setLoadTime(time);
+
+				return;
                 
-                if(algo.equalsIgnoreCase("lifo")) 
-                    lifo.add(p);
-              
-                
-                //System.out.println(p.getprocessNum() + " references word "+word+" (page "+p.getPageNum()+") at time "+time+": Fault, using free frame "+i+".");
-                p.setLoadTime(time);
-                
-                return;
-                
-            }
-			
-			
+           		}	
 		}
-	
 	}
-	
 	
 	public static void evict(Page p, int time, int word) {
 		
@@ -385,26 +362,22 @@ public class Pager {
 				
 				if(ram[i].getprocessNum() == remove.getprocessNum() && ram[i].getPageNum()==remove.getPageNum()) {
 					
-				
 					int processN = ram[i].getprocessNum();
 					
 					processes.get(processN-1).increaseNumOfEvictions(1);
 					
 					//System.out.println("page faults of process " +processN+" faults "+processes.get(processN-1).getNumOfPageFaults());
 					
-					
 					ram[i] = p;
-					
-					
 					processes.get(processN-1).increaseAvgResidencyTime(time - remove.getLoadTime());
 					
 					p.setLoadTime(time);
                     
-                    lru.add(p);
+                    			lru.add(p);
                     
-                    //System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+remove.getPageNum()+" of process "+remove.getprocessNum()+" from frame: " + i);
+                    			//System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+remove.getPageNum()+" of process "+remove.getprocessNum()+" from frame: " + i);
                     
-                    return;
+                    			return;
 					
 				}
 			
@@ -431,14 +404,13 @@ public class Pager {
 					
 					p.setLoadTime(time);
                     
-                    lifo.add(p);
+                    			lifo.add(p);
                     
-                    //System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+remove.getPageNum()+" of process "+remove.getprocessNum()+" from frame: " + i);
+                    			//System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+remove.getPageNum()+" of process "+remove.getprocessNum()+" from frame: " + i);
                     
-                    return;
+                    			return;
 					
 				}
-				
 				
 			}
 			
@@ -453,22 +425,22 @@ public class Pager {
 			
 			//System.out.println("The random number is "+ randomNum);
 			
-            Page pageToRemove = ram[random];
+            		Page pageToRemove = ram[random];
             
-            int processN = pageToRemove.getprocessNum();
+            		int processN = pageToRemove.getprocessNum();
             
-            processes.get(processN-1).increaseNumOfEvictions(1);
+            		processes.get(processN-1).increaseNumOfEvictions(1);
             
             
-            processes.get(processN-1).increaseAvgResidencyTime(time - pageToRemove.getLoadTime());
+            		processes.get(processN-1).increaseAvgResidencyTime(time - pageToRemove.getLoadTime());
             
       
-            ram[random] = p;
-            p.setLoadTime(time);
+           		ram[random] = p;
+            		p.setLoadTime(time);
             
-            //System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+pageToRemove.getPageNum()+" of process "+pageToRemove.getprocessNum()+" from frame: " + random);
+            		//System.out.println(p.getprocessNum() + " references word " + word + " (page "+p.getPageNum()+") at time " + time + ": Fault, evicting page "+pageToRemove.getPageNum()+" of process "+pageToRemove.getprocessNum()+" from frame: " + random);
             
-            return;
+            		return;
 			
 		}
 		
