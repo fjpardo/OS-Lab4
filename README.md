@@ -1,7 +1,6 @@
 # OS-Lab4
 NYU Operating Systems Lab 4 - Demand Paging
 
-
 To run the code,
 
 If you are running the code on terminal, or on crackle, follow these steps:
